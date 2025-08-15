@@ -1,0 +1,41 @@
+
+.navbar{
+    
+    padding: 20px 0px;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-menu{
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    color: rgb(59, 177, 132);
+    font-size: 18px;
+}
+.sign-in-Button{
+  padding: 15px 50px;
+  background-color: rgb(198, 126, 53);
+  border: 1px solid rgb(81, 140, 163);
+  border-radius: 40px;
+  cursor: pointer;
+  font-size:16px;
+  transition: 0.3s;
+}
+.sign-in-Button:Hover{
+    background-color:mediumblue;
+}
+
+.navbar-right{
+    display:flex;
+    align-items: center;
+    gap: 40px;
+}
+.navbar .active{
+  border-bottom: 2px solid rgb(203, 11, 11);
+ font-weight: bold;
+}
+.navbar li{
+    cursor: pointer;
+}
