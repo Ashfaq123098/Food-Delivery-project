@@ -1,11 +1,15 @@
 
 .header {
   
-  background-image: url('../../assets/Fresh\ Juices\ and\ Vibrant\ Fruits.png');
+background-image: url('../../assets/tasty-fruits-juice-with-vitamins-background_488220-2911.avif');
+
   
-  background-size: contain;             
+  background-size: cover;   
+  background-position: center;          
+  background-repeat: no-repeat;   
+  width: 100%;
   height: 700px; 
-  margin: 30 px auto;     
+  margin: 30px auto;  
   position: relative;
         
 }
@@ -24,10 +28,23 @@
    font-weight: 500;
    color: darkmagenta;
    font-size: max(4.5 vw,22px);
-   text-align: center;
 }
 .header-content p{
     color: black;
     font-size: 1vw;
     margin-left: 30px;
+}
+@media (max-width:1050px){
+  .header-content{
+    max-width: 65%;
+  }
+}
+@media (max-width:750px){
+  .header-content{
+    max-width: 55%;
+  }
+  .header-content p{
+    display: none;
+  }
+
 }

@@ -6,10 +6,7 @@ const Home = () => {
   const[category,setCategory]= useState("All")
   return (
     <div>
-      <hr/>
       <AboutInformation/>
-
-      
       <hr/>
         <MobileAppDownload/>
         <hr/>
