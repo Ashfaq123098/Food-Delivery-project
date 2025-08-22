@@ -4,7 +4,7 @@ import IconImg from '../../assets/unnamed.png';
 import SearchImg from '../../assets/search.png';
 import { Link } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = ({setShowLogin}) => {
   const[menu,setMenu]= useState("home");
   return (
     <div className="navbar">
@@ -19,7 +19,7 @@ const Navbar = () => {
       <div className="navbar-right">
         <img src={SearchImg} alt="sd" width="25" />
         <div className="dot"></div>
-        <button  className="sign-in-Button">Sign In</button>
+        <button onClick={() =>setShowLogin(true)} className="sign-in-Button">Sign In</button>
       </div>
     </div>
   );

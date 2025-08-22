@@ -31,7 +31,7 @@ const Footer = () => {
             <ul>
                   <li><a href="/">Home</a></li>
                    <li><a href="#About-Information">About</a></li>
-                    <li>Delivery</li>
+                   <li>Delivery</li>
                       <li><a href="https://worldexpressdeliveryinc.com/privacy-policy/index.html">Privacy Policy</a></li>
             </ul>
         </div>
