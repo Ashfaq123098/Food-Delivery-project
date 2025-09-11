@@ -1,0 +1,150 @@
+.menu-content {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  text-align: center;
+  overflow: hidden; /* Prevent the whole page from scrolling horizontally */
+}
+
+.menu-content h2 {
+  font-size: 2.5rem;
+  color: #140121;
+  margin-bottom: 1rem;
+}
+
+.explore-menu-text {
+  font-size: 1.1rem;
+  color: #1f1f20;
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Wrap the scrolling list in a container */
+.explore-menu-scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  padding-bottom: 1rem;
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar (optional, for better look) */
+.explore-menu-scroll-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.explore-menu-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* The actual horizontal item list */
+.explore-menu-list {
+  display: inline-flex;
+  gap: 1.5rem;
+  padding-left: 0.5rem;
+}
+
+/* Menu item styling */
+.explore-menu-list-item {
+  flex: 0 0 220px;
+  background-color: #131380;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: center;
+}
+
+.explore-menu-list-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Food image container */
+.food-image-container {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+.food-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: border 0.3s ease;
+}
+
+.food-image-container img:hover {
+  border: 3px solid rgb(9, 40, 143);
+}
+
+/* Food name button */
+.food-name-button {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  background-color: #101880;
+  color: white;
+  border: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.food-name-button:hover {
+  background-color: #430a88;
+}
+
+/* Responsive tweaks */
+@media (max-width: 500px) {
+  .menu-content h2 {
+    font-size: 2rem;
+  }
+
+  .explore-menu-text {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 768px) {
+  .explore-menu-list {
+    gap: 1rem;
+  }
+
+  .explore-menu-list-item {
+    flex: 0 0 180px;
+  }
+
+  .food-image-container {
+    height: 150px;
+  }
+}
+
+.scroll-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.scroll-btn {
+  background-color: #11375d;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.scroll-btn:hover {
+  background-color: #1a242f;
+}
