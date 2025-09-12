@@ -1,25 +1,104 @@
-import React, { useState } from 'react';
-import './Navbar.css'; 
-import IconImg from '../../assets/unnamed.png';
-import SearchImg from '../../assets/search.png';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { StoreContext } from "../../Context/StoreContext";
 
-const Navbar = ({setShowLogin}) => {
-  const[menu,setMenu]= useState("home");
+import "./Navbar.css";
+import IconImg from "../../assets/unnamed.png";
+import SearchImg from "../../assets/search.png";
+import basketIconImg from "../../assets/basket-icon.jpg";
+
+const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
+  const [activeLink, setActiveLink] = useState("/");
+  const { getTotalAmountCart } = useContext(StoreContext);
+
+  const handleClick = (value) => setActiveLink(value);
+
   return (
     <div className="navbar">
-      <img src={IconImg} alt="rc" width="250" height="200" />
+      {/* Logo */}
+      <NavLink to="/" onClick={() => handleClick("/")}>
+        <img src={IconImg} alt="logo" className="navbar-logo" />
+      </NavLink>
 
+      {/* Menu */}
       <ul className="navbar-menu">
-        <Link onClick={()=>setMenu("Home")}className={menu=="Home"?"active":""}>Home</Link> 
-         <a href='#About-Information' onClick={()=>setMenu("About")}className={menu=="About"?"active":""}>About</a> 
-          <a href='#Mobile-app-download' onClick={()=>setMenu("Mobile App")}className={menu=="Mobile App"?"active":""}>Mobile App</a>
-        <a href='#footer' onClick={()=>setMenu("Contacts")}className={menu=="Contacts"?"active":""}>Contacts</a>   
+        <li>
+          <NavLink
+            to="/"
+            className={activeLink === "/" ? "nav-link active" : "nav-link"}
+            onClick={() => handleClick("/")}
+          >
+            Home
+          </NavLink>
+        </li>
+
+        <li>
+          <NavLink
+            to="/menu"
+            className={activeLink === "/menu" ? "nav-link active" : "nav-link"}
+            onClick={() => handleClick("/menu")}
+          >
+            Menu
+          </NavLink>
+        </li>
+
+        <li>
+          <a
+            href="#About-Information"
+            className={activeLink === "#About-Information" ? "nav-link active" : "nav-link"}
+            onClick={() => handleClick("#About-Information")}
+          >
+            About
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#Mobile-app-download"
+            className={activeLink === "#Mobile-app-download" ? "nav-link active" : "nav-link"}
+            onClick={() => handleClick("#Mobile-app-download")}
+          >
+            Mobile App
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="#footer"
+            className={activeLink === "#footer" ? "nav-link active" : "nav-link"}
+            onClick={() => handleClick("#footer")}
+          >
+            Contacts
+          </a>
+        </li>
       </ul>
+
+      {/* Right Section */}
       <div className="navbar-right">
-        <img src={SearchImg} alt="sd" width="25" />
-        <div className="dot"></div>
-        <button onClick={() =>setShowLogin(true)} className="sign-in-Button">Sign In</button>
+        <img src={SearchImg} alt="search" className="search-icon" />
+
+        <NavLink to="/cart" className="cart-link">
+          <img src={basketIconImg} alt="basket" className="basket-icon" />
+          {getTotalAmountCart() > 0 && <div className="dot"></div>}
+        </NavLink>
+
+        {isLoggedIn ? (
+          <div className="user-section">
+            <span className="welcome-text">Welcome, {user?.name || "User"}</span>
+            <button onClick={onLogout} className="logout-button">
+              Logout
+            </button>
+          </div>
+        ) : (
+          <div className="auth-buttons">
+            <button onClick={() => setShowLogin(true)} className="sign-in-button">
+              Sign In
+            </button>
+            <button onClick={onShowSignUp} className="sign-up-button">
+              Sign Up
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
