@@ -91,9 +91,6 @@ const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
           </div>
         ) : (
           <div className="auth-buttons">
-            <button onClick={() => setShowLogin(true)} className="sign-in-button">
-              Sign In
-            </button>
             <button onClick={onShowSignUp} className="sign-up-button">
               Sign Up
             </button>
