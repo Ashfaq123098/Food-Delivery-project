@@ -1,17 +1,14 @@
-import React, { useState } from 'react';
-import './Home.css'
-import MobileAppDownload from '../../components/MobileAppDownload/MobileAppDownload';
-import AboutInformation from '../../components/AboutInformation/AboutInformation';
-const Home = () => {
-  const[category,setCategory]= useState("All")
+import React from "react";
+import Header from "../../components/Header/Header";
+import ExploreMenu from "../../components/ExploreMenu/ExploreMenu";
+import FoodDisplay from "../../components/FoodDisplay/FoodDisplay";
+
+export const Home = ({ category, setCategory }) => {
   return (
     <div>
-      <AboutInformation/>
-      <hr/>
-        <MobileAppDownload/>
-        <hr/>
+      <Header />
+      <ExploreMenu category={category} setCategory={setCategory} />
+      <FoodDisplay category={category} />
     </div>
-  )
-}
-
-export default Home
+  );
+};
