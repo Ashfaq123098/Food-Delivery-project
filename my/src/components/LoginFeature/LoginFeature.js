@@ -4,18 +4,40 @@ import './LoginFeature.css';
 function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuccess = () => {} }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) return alert(' Invalid email');
-    if (password.length < 6) return alert(' Password must be at least 6 characters');
+    if (!emailPattern.test(email)) return alert('Invalid email.Please Enter A Valid Email');
+    if (password.length < 8) return alert('Password must be at least 8 characters');
 
-    const userData = { email, name: email.split('@')[0] };
-    alert("Login Successful!\nEmail: " + email);
+    try {
+      setLoading(true);
 
-    onSuccess(userData);
-    setShowLogin(false);
+      const res = await fetch('http://localhost:4000/api/user/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        // Save token in localStorage (optional)
+        localStorage.setItem('token', data.token);
+        onSuccess({ email, name: email.split('@')[0] });
+        setShowLogin(false);
+      } else {
+        alert(data.message || 'Login failed.Please Try Again');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('Error connecting to server');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -24,7 +46,9 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
         <h2>Welcome Back!</h2>
         <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
         <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
-        <button type="submit">Login</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
 
         <p>
           Don't have an account?{" "}
