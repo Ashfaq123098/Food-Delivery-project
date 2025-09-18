@@ -1,31 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap'); 
 
-*{
-  padding: 0%;
-  margin: 0%;
+/* Global Reset */
+* {
+  padding: 0;
+  margin: 0;
   box-sizing: border-box;
-  font-family: 'Outfit';
+  font-family: 'Outfit', sans-serif;
 }
 
-body{
+body {
   min-height: 100vh;
+  scroll-behavior: smooth; /* smooth scroll for anchor links */
 }
 
-a{
+a {
   text-decoration: none;
   color: inherit;
 }
 
-.app{
+.app {
   width: 80%;
   margin: 0 auto;
 }
 
-@keyframes  fadeIn {
-  0% {
-    opacity: 0;
+/* Fade-in animation */
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Section scroll offset for fixed navbar */
+section,
+.about-information,
+.mobile-app,
+.footer {
+  scroll-margin-top: 100px; /* adjust according to navbar height */
+}
+
+/* Responsive offset for smaller screens */
+@media (max-width: 768px) {
+  section,
+  .about-information,
+  .mobile-app,
+  .footer {
+    scroll-margin-top: 120px;
   }
-  100% {
-    opacity: 1;
+
+  .app {
+    width: 90%;
   }
+}
+
+/* Optional: smooth fade-in for sections */
+section,
+.about-information,
+.mobile-app,
+.footer {
+  animation: fadeIn 1s ease-in;
 }

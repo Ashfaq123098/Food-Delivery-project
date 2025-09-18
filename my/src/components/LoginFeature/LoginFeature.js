@@ -5,13 +5,19 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({ email: "", password: "" });
+
+  const handleBlur = (field) => {
+    if (field === "email" && !email) setErrors(prev => ({ ...prev, email: "Please enter your Email" }));
+    if (field === "password" && !password) setErrors(prev => ({ ...prev, password: "Please enter your Password" }));
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) return alert('Invalid email.Please Enter A Valid Email');
-    if (password.length < 8) return alert('Password must be at least 8 characters');
+    if (!emailPattern.test(email)) return setErrors(prev => ({ ...prev, email: "Invalid Email" }));
+    if (password.length < 8) return setErrors(prev => ({ ...prev, password: "Password must be at least 8 characters" }));
 
     try {
       setLoading(true);
@@ -25,12 +31,18 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
       const data = await res.json();
 
       if (data.success) {
-        // Save token in localStorage (optional)
         localStorage.setItem('token', data.token);
-        onSuccess({ email, name: email.split('@')[0] });
+
+        // ✅ Add default avatar
+        onSuccess({
+          email,
+          name: email.split('@')[0],
+          avatar: '/assets/courage-get-5-user-login-flashed-prints-user-profile-home-page-login-avatar-user.png'
+        });
+
         setShowLogin(false);
       } else {
-        alert(data.message || 'Login failed.Please Try Again');
+        alert(data.message || 'Login failed. Please Try Again');
       }
     } catch (error) {
       console.log(error);
@@ -44,8 +56,27 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
     <div className="login-container">
       <form className="login-box" onSubmit={handleLogin}>
         <h2>Welcome Back!</h2>
-        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: "" })); }}
+          onBlur={() => handleBlur("email")}
+          required
+        />
+        {errors.email && <p className="error-msg">{errors.email}</p>}
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: "" })); }}
+          onBlur={() => handleBlur("password")}
+          required
+        />
+        {errors.password && <p className="error-msg">{errors.password}</p>}
+
         <button type="submit" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>

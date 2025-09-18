@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import { Home } from "./pages/Home/Home";
 import PlaceOrder from "./pages/PlaceOfOrder/PlaceOfOrder";
@@ -10,7 +10,7 @@ import LoginFeature from "./components/LoginFeature/LoginFeature";
 import Footer from "./components/Footer/Footer";
 import AboutInformation from "./components/AboutInformation/AboutInformation";
 import MobileApp from "./components/MobileAppDownload/MobileAppDownload";
-import Cart from "./pages/Cart/Cart"; // <-- Import Cart
+import Cart from "./pages/Cart/Cart";
 
 const App = () => {
   const [category, setCategory] = useState("all");
@@ -19,16 +19,39 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
 
+  // ✅ Check localStorage on load
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+      setIsLoggedIn(true);
+    } else {
+      setShowLogin(true);
+    }
+  }, []);
+
+  // ✅ Handle login success
   const handleLogin = (userData) => {
-    setIsLoggedIn(true);
     setUser(userData);
+    setIsLoggedIn(true);
+    localStorage.setItem("user", JSON.stringify(userData));
     setShowLogin(false);
     setShowSignUp(false);
   };
 
+  // ✅ Logout
   const handleLogout = () => {
-    setIsLoggedIn(false);
     setUser(null);
+    setIsLoggedIn(false);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    setShowLogin(true);
+  };
+
+  // ✅ Protect Routes
+  const ProtectedRoute = ({ children }) => {
+    if (!isLoggedIn) return <Navigate to="/" replace />;
+    return children;
   };
 
   return (
@@ -64,26 +87,48 @@ const App = () => {
 
       {/* Routes */}
       <Routes>
-        <Route path="/" element={<Home category={category} setCategory={setCategory} />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Home category={category} setCategory={setCategory} />
+              <AboutInformation />
+              <MobileApp />
+              <Footer />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/menu"
           element={
-            <div className="menu-page">
-              <ExploreMenu category={category} setCategory={setCategory} />
-              <FoodDisplay category={category} />
-            </div>
+            <ProtectedRoute>
+              <div className="menu-page">
+                <ExploreMenu category={category} setCategory={setCategory} />
+                <FoodDisplay category={category} />
+              </div>
+            </ProtectedRoute>
           }
         />
-        <Route path="/order" element={<PlaceOrder isLoggedIn={isLoggedIn} />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/order"
+          element={
+            <ProtectedRoute>
+              <PlaceOrder />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-
-      {/* Sections on Home Page */}
-      <AboutInformation />
-      <MobileApp />
-      <Footer />
     </div>
   );
 };
 
 export default App;
+
