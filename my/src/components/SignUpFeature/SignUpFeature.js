@@ -21,7 +21,7 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
       const data = await res.json();
 
       if (data.success) {
-        onSuccess({ name, email }); // basic user info only
+        onSuccess({ name, email }); 
         setShowSignUp(false);
         setShowLogin(true);
         alert('✅ Signup Successful!');
