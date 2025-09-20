@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
   category: String,
   description: String,
   image: String,
-  status: { type: String, default: "active" } // active / deleted
+  status: { type: String, default: "active" } 
 });
 
 export default mongoose.model("Product", productSchema);
