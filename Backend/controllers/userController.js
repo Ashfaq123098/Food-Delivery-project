@@ -37,13 +37,12 @@ const createToken = (id) =>{
 const registerUser = async(req,res)=>{
     const{name,password,email} = req.body;
     try {
-        
+
         const exists = await userModel.findOne({email});
         if (exists) {
             return res.json({success:false,message:"User Already Found"})
         }
 
-        //validating  valid email format and strong password
         if (!validator.isEmail(email)) {
             return res.json({success:false,message:"Please Enter A Valid Email"})
         }
