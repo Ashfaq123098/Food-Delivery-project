@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SignUpFeature.css';
 
-function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSuccess = () => {} }) {
+function SignUpFeature({ onSuccess = () => {} }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +21,7 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
       const data = await res.json();
 
       if (data.success) {
-        onSuccess({ name, email }); 
-        setShowSignUp(false);
-        setShowLogin(true);
+        onSuccess({ name, email });
         alert('✅ Signup Successful!');
       } else {
         alert(data.message || 'Signup failed');
@@ -71,7 +69,7 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
 
         <p>
           Already have an account?{" "}
-          <span onClick={() => { setShowSignUp(false); setShowLogin(true); }}>Login</span>
+          <a href="/login">Login</a>
         </p>
       </form>
     </div>
@@ -79,6 +77,3 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
 }
 
 export default SignUpFeature;
-
-
-

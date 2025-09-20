@@ -7,7 +7,7 @@
   max-width: 1000px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 
-  /* Start hidden */
+  /*start hidden */
   opacity: 0;
   transform: translateY(40px);
 
@@ -15,16 +15,8 @@
   animation: fadeInUp 0.8s ease-out 0.5s forwards; /* 0.5s delay */
 }
 
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+
+
 
 .mobile-app h2 {
   font-size: 2.5rem;

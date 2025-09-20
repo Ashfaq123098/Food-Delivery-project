@@ -28,16 +28,15 @@ const App = () => {
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
-      navigate("/login");
     }
-  }, [navigate]);
+  }, []);
 
-  // ✅ Handle login success
+  // ✅ Handle login/signup success
   const handleLogin = (userData) => {
     setUser(userData);
     setIsLoggedIn(true);
     localStorage.setItem("user", JSON.stringify(userData));
-    navigate("/"); // login হলে homepage এ redirect
+    navigate("/"); // success হলে home page
   };
 
   // ✅ Logout
@@ -63,8 +62,8 @@ const App = () => {
         onLogout={handleLogout}
       />
 
-      {/* Routes */}
       <Routes>
+        {/* Protected Routes */}
         <Route
           path="/"
           element={
@@ -105,25 +104,17 @@ const App = () => {
         />
 
         {/* Public Routes */}
-        <Route path="/login" element={
-          <LoginFeature
-            setShowLogin={() => {}}
-            setShowSignUp={() => {}}
-            onSuccess={handleLogin}
-          />
-        }/>
-        <Route path="/signup" element={
-          <SignUpFeature
-            setShowSignUp={() => {}}
-            setShowLogin={() => {}}
-            onSuccess={handleLogin}
-          />
-        }/>
+        <Route
+          path="/login"
+          element={<LoginFeature onSuccess={handleLogin} />}
+        />
+        <Route
+          path="/signup"
+          element={<SignUpFeature onSuccess={handleLogin} />}
+        />
       </Routes>
     </div>
   );
 };
 
 export default App;
-
-

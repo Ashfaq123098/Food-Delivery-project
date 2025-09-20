@@ -14,13 +14,13 @@ const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
 
   const handleClick = (value) => setActiveLink(value);
 
-  // ✅ Anchor scroll without animation, works from any page
+  
   const handleAnchorClick = (id) => {
     if (window.location.pathname !== "/") {
-      navigate("/"); // Go to Home first
+      navigate("/"); 
       setTimeout(() => {
         document.getElementById(id)?.scrollIntoView({ behavior: "auto" });
-      }, 100); // small delay to allow DOM render
+      }, 100);
     } else {
       document.getElementById(id)?.scrollIntoView({ behavior: "auto" });
     }
@@ -85,9 +85,7 @@ const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
           </div>
         ) : (
           <div className="auth-buttons">
-            <button onClick={onShowSignUp} className="sign-up-button">
-              Sign Up
-            </button>
+           
           </div>
         )}
       </div>

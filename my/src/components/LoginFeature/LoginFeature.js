@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './LoginFeature.css';
 
-function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuccess = () => {} }) {
+function LoginFeature({ onSuccess = () => {} }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -21,8 +21,7 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
 
       if (data.success) {
         localStorage.setItem('token', data.token);
-        onSuccess({ email, name: email.split('@')[0] }); 
-        setShowLogin(false);
+        onSuccess({ email, name: email.split('@')[0] });
       } else {
         alert(data.message || 'Login failed. Please Try Again');
       }
@@ -61,7 +60,7 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
 
         <p>
           Don't have an account?{" "}
-          <span onClick={() => { setShowLogin(false); setShowSignUp(true); }}>Sign Up</span>
+          <a href="/signup">Sign Up</a>
         </p>
       </form>
     </div>
@@ -69,4 +68,3 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
 }
 
 export default LoginFeature;
-
