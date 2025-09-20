@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import { Home } from "./pages/Home/Home";
 import PlaceOrder from "./pages/PlaceOfOrder/PlaceOfOrder";
@@ -14,29 +14,30 @@ import Cart from "./pages/Cart/Cart";
 
 const App = () => {
   const [category, setCategory] = useState("all");
-  const [showSignUp, setShowSignUp] = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
   // ✅ Check localStorage on load
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
-    if (savedUser) {
+    const token = localStorage.getItem("token");
+
+    if (savedUser && token) {
       setUser(JSON.parse(savedUser));
       setIsLoggedIn(true);
     } else {
-      setShowLogin(true);
+      setIsLoggedIn(false);
+      navigate("/login");
     }
-  }, []);
+  }, [navigate]);
 
   // ✅ Handle login success
   const handleLogin = (userData) => {
     setUser(userData);
     setIsLoggedIn(true);
     localStorage.setItem("user", JSON.stringify(userData));
-    setShowLogin(false);
-    setShowSignUp(false);
+    navigate("/"); // login হলে homepage এ redirect
   };
 
   // ✅ Logout
@@ -45,12 +46,12 @@ const App = () => {
     setIsLoggedIn(false);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    setShowLogin(true);
+    navigate("/login");
   };
 
   // ✅ Protect Routes
   const ProtectedRoute = ({ children }) => {
-    if (!isLoggedIn) return <Navigate to="/" replace />;
+    if (!isLoggedIn) return <Navigate to="/login" replace />;
     return children;
   };
 
@@ -60,30 +61,7 @@ const App = () => {
         isLoggedIn={isLoggedIn}
         user={user}
         onLogout={handleLogout}
-        setShowLogin={setShowLogin}
-        onShowSignUp={() => setShowSignUp(true)}
       />
-
-      {/* SignUp & Login Modals */}
-      {showSignUp && (
-        <div className="modal-overlay">
-          <SignUpFeature
-            setShowSignUp={setShowSignUp}
-            setShowLogin={setShowLogin}
-            onSuccess={handleLogin}
-          />
-        </div>
-      )}
-
-      {showLogin && (
-        <div className="modal-overlay">
-          <LoginFeature
-            setShowLogin={setShowLogin}
-            setShowSignUp={setShowSignUp}
-            onSuccess={handleLogin}
-          />
-        </div>
-      )}
 
       {/* Routes */}
       <Routes>
@@ -125,10 +103,27 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
+        {/* Public Routes */}
+        <Route path="/login" element={
+          <LoginFeature
+            setShowLogin={() => {}}
+            setShowSignUp={() => {}}
+            onSuccess={handleLogin}
+          />
+        }/>
+        <Route path="/signup" element={
+          <SignUpFeature
+            setShowSignUp={() => {}}
+            setShowLogin={() => {}}
+            onSuccess={handleLogin}
+          />
+        }/>
       </Routes>
     </div>
   );
 };
 
 export default App;
+
 
