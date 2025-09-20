@@ -45,7 +45,7 @@ const Add = ({ onNewProduct }) => {
       });
 
       if (res.status === 201 || res.status === 200) {
-        // 1️⃣ Instant browser alert
+       
         alert("✅ Product Added Successfully!");
 
         // 2️⃣ In-component success message
