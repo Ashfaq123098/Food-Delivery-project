@@ -139,8 +139,7 @@ const Add = ({ onNewProduct }) => {
 
         <button type="submit" className="add-btn">Add</button>
 
-        {/* In-component success message */}
-        {success && <p className="success-msg">✅ Product Added Successfully!</p>}
+         {success && <p className="success-msg">✅ Product Added Successfully!</p>}
       </form>
     </div>
   );
