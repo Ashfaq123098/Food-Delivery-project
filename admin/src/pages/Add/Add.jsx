@@ -51,7 +51,7 @@ const Add = ({ onNewProduct }) => {
         setSuccess(true);
         setTimeout(() => setSuccess(false), 2000);
 
-        // Reset form
+        
         setData({ name: "", description: "", price: "", category: "Salad" });
         setImage(null);
 
