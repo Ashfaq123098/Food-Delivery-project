@@ -1,4 +1,4 @@
-// src/Context/StoreContext.js
+
 import { createContext, useState } from "react";
 import { foodlist } from "../FoodData/FoodData";
 
