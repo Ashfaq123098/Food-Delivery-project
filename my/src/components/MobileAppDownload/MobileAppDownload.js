@@ -18,7 +18,7 @@ const MobileApp = () => {
             <li>⚡ Quick reordering</li>
           </ul>
 
-          {/* App Store / Google Play Buttons */}
+         
           <div className="app-download-buttons">
             <a 
               href="https://www.apple.com/app-store/" 
