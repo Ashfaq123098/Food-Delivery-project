@@ -46,7 +46,7 @@ const registerUser = async(req,res)=>{
         if (!validator.isEmail(email)) {
             return res.json({success:false,message:"Please Enter A Valid Email"})
         }
-         // 3. Check if local part is not only numbers
+        
         const localPart = email.split("@")[0];
         if (/^\d+$/.test(localPart))
             return res.json({ success: false, message: "Email cannot be only numbers" });
