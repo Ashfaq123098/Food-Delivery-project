@@ -1,22 +1,101 @@
-.app-download{
-    margin: auto auto;
-    margin-top: 100px;
-    font-size: max(3vw,20px);
-    text-align: center;
-    font-weight: 500;
+.mobile-app {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  border-radius: 20px;
+  margin: 50px auto;
+  max-width: 1000px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+
+  /* Start hidden */
+  opacity: 0;
+  transform: translateY(40px);
+
+  /* Animate automatically on load */
+  animation: fadeInUp 0.8s ease-out 0.5s forwards; /* 0.5s delay */
 }
-.app-download-platforms{
-    display: flex;
-    justify-content: center;
-    gap: max(2vw,10px);
-    margin-top: 40px;
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.app-download-platforms img{
-    width: max(30vw,120px);
-    max-width: 180 px;
-    transition: 0.5s;
-    cursor: pointer;
+
+.mobile-app h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #333;
 }
-.app-download-platforms img:hover{
-    transform: scale(1.05)
+
+.mobile-app-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
 }
+
+.app-features {
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
+}
+
+.app-features h3 {
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+.app-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 25px 0;
+}
+
+.app-features li {
+  margin: 10px 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Buttons */
+.app-download-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.store-btn {
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: 0.3s;
+  color: #fff;
+}
+
+.apple-btn {
+  background: #000;
+}
+
+.apple-btn:hover {
+  background: #333;
+}
+
+.google-btn {
+  background: #34a853;
+}
+
+.google-btn:hover {
+  background: #2c8c45;
+}
+

@@ -8,11 +8,6 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) return alert('Invalid email.Please Enter A Valid Email');
-    if (password.length < 8) return alert('Password must be at least 8 characters');
-
     try {
       setLoading(true);
 
@@ -25,12 +20,11 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
       const data = await res.json();
 
       if (data.success) {
-        // Save token in localStorage (optional)
         localStorage.setItem('token', data.token);
-        onSuccess({ email, name: email.split('@')[0] });
+        onSuccess({ email, name: email.split('@')[0] }); // basic user info only
         setShowLogin(false);
       } else {
-        alert(data.message || 'Login failed.Please Try Again');
+        alert(data.message || 'Login failed. Please Try Again');
       }
     } catch (error) {
       console.log(error);
@@ -44,8 +38,23 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
     <div className="login-container">
       <form className="login-box" onSubmit={handleLogin}>
         <h2>Welcome Back!</h2>
-        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required />
+
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          required
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+
         <button type="submit" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
@@ -60,3 +69,4 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
 }
 
 export default LoginFeature;
+

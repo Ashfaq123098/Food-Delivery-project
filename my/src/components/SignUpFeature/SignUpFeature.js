@@ -9,12 +9,6 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
-    if (!name) return alert('❌ Name is required');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) return alert('❌ Invalid email');
-    if (password.length < 8) return alert('❌ Password must be at least 8 characters');
-
     try {
       setLoading(true);
 
@@ -27,11 +21,9 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
       const data = await res.json();
 
       if (data.success) {
-        // Optional: save token and log in immediately
-        // localStorage.setItem('token', data.token);
-        onSuccess({ name, email });
+        onSuccess({ name, email }); // basic user info only
         setShowSignUp(false);
-        setShowLogin(true); // or setShowLogin(true) if you want them to log in manually
+        setShowLogin(true);
         alert('✅ Signup Successful!');
       } else {
         alert(data.message || 'Signup failed');
@@ -56,6 +48,7 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
           onChange={e => setName(e.target.value)}
           required
         />
+
         <input
           type="email"
           placeholder="Email"
@@ -63,6 +56,7 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
           onChange={e => setEmail(e.target.value)}
           required
         />
+
         <input
           type="password"
           placeholder="Password"
@@ -85,4 +79,6 @@ function SignUpFeature({ setShowSignUp = () => {}, setShowLogin = () => {}, onSu
 }
 
 export default SignUpFeature;
+
+
 
