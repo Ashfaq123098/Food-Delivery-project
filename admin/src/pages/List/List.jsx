@@ -22,7 +22,7 @@ const List = () => {
     fetchBackend();
   }, []);
 
-  // Called from Add page
+  
   const addBackendItem = (newItem) => {
     setBackendItems((prev) => [...prev, newItem]);
   };
