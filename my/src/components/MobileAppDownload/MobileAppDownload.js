@@ -7,7 +7,7 @@ const MobileApp = () => {
       <h2>📱 Download Our Mobile App</h2>
 
       <div className="mobile-app-content">
-        {/* Left Side: Features */}
+       
         <div className="app-features">
           <h3>Get the best experience with our app</h3>
           <ul>
