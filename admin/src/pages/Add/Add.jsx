@@ -55,7 +55,6 @@ const Add = ({ onNewProduct }) => {
         setData({ name: "", description: "", price: "", category: "Salad" });
         setImage(null);
 
-        // Notify parent
         onNewProduct(res.data);
       }
     } catch (err) {
