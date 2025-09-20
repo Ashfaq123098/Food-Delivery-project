@@ -41,7 +41,6 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-// DELETE (soft delete)
 router.delete("/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
