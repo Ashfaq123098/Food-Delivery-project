@@ -22,7 +22,7 @@ app.use("/api/products", productRouter);
 
 app.use("/uploads", express.static("uploads"));
 
-// Root
+
 app.get("/", (req, res) => res.send("API is working"));
 
 // Start server
