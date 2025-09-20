@@ -48,7 +48,6 @@ const Add = ({ onNewProduct }) => {
        
         alert("✅ Product Added Successfully!");
 
-        // 2️⃣ In-component success message
         setSuccess(true);
         setTimeout(() => setSuccess(false), 2000);
 
