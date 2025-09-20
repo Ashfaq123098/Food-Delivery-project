@@ -1,12 +1,12 @@
 import foodmodel from "../models/foodmodel.js";
 import fs from "fs";
 
-// Add a new food item
+
 const addfood = async (req, res) => {
   try {
     const { name, description, price, category } = req.body;
 
-    // Validate required fields
+   
     if (!name || !description || !price || !category) {
       return res.status(400).json({
         success: false,
@@ -14,10 +14,10 @@ const addfood = async (req, res) => {
       });
     }
 
-    // Handle image (from multer or fallback)
+    
     let imagePath = "default-image.jpg";
     if (req.file) {
-      imagePath = req.file.path; // multer gives path of uploaded file
+      imagePath = req.file.path; 
     }
 
     const food = new foodmodel({
@@ -46,7 +46,7 @@ const addfood = async (req, res) => {
   }
 };
 
-// List all food items
+
 const foodlist = async (req, res) => {
   try {
     const foods = await foodmodel.find({});
@@ -64,7 +64,7 @@ const foodlist = async (req, res) => {
   }
 };
 
-// Remove a food item by ID
+
 const removefood = async (req, res) => {
   try {
     const { id } = req.params;
@@ -74,7 +74,7 @@ const removefood = async (req, res) => {
       return res.status(404).json({ success: false, message: "Food not found" });
     }
 
-    // Delete image file if it exists and is not default
+    
     if (food.image && food.image !== "default-image.jpg") {
       fs.unlink(food.image, (err) => {
         if (err) console.error("Error deleting image file:", err);

@@ -1,36 +1,61 @@
-import express from "express"
-import cors from "cors"
-import { connectDB } from "./config/db.js"
-import userRouter from "./routes/userRoute.js"
-import orderRouter from "./routes/orderRoute.js"
-import foodRoute from "./routes/foodRoute.js"; // matches default export
+// server.js
+import express from "express";
+import cors from "cors";
+import { connectDB } from "./config/db.js";
+import userRoute from "./routes/userRoute.js";
+import orderRoute from "./routes/orderRoute.js";
+import foodRoute from "./routes/foodRoute.js";
+import 'dotenv/config';
 
-import 'dotenv/config'
+const app = express();
+const port = process.env.PORT || 4000;
 
+// -----------------------
+// Middleware
+// -----------------------
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // for SSLCommerz callbacks
 
-//app config
-const app = express()
-const port = 4000
+app.use(cors({
+  origin: ["http://localhost:3000", "http://localhost:3001"],
+  credentials: true,
+}));
 
-//middleware
-app.use(express.json())
-app.use(cors())
-
-//db connection
+// -----------------------
+// DB connection
+// -----------------------
 connectDB();
 
+// -----------------------
+// API routes
+// -----------------------
+app.use("/api/user", userRoute);
+app.use("/api/food", foodRoute);
+app.use("/api/order", orderRoute);
 
 
-//api endpoints
-app.use("/api/user",userRouter)
-app.use("/api/food",foodRoute)
-app.use("/api/order",orderRouter);
-app.use("/images",express.static("uploads")); 
+// -----------------------
+// Static files
+// -----------------------
+app.use("/images", express.static("uploads"));
 
-app.get("/",(req,res)=>{
-    res.send("API is Working")
-})
+// -----------------------
+// Root route
+// -----------------------
+app.get("/", (req, res) => {
+  res.send("API is Working");
+});
 
-app.listen(port,()=>{
-    console.log(`Server Started on http://localhost:${port}`)
-})
+// -----------------------
+// 404 handler
+// -----------------------
+app.use((req, res) => {
+  res.status(404).json({ message: "API endpoint not found" });
+});
+
+// -----------------------
+// Start server
+// -----------------------
+app.listen(port, () => {
+  console.log(`Server started on http://localhost:${port}`);
+});

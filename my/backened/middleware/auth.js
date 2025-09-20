@@ -13,7 +13,7 @@ const authMiddleware = (req, res, next) => {
       req.user = null;
     }
   } else {
-    req.user = null; // no token → guest
+    req.user = null; 
   }
 
   next();

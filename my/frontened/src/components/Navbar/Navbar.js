@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { StoreContext } from "../../Context/StoreContext";
 
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import IconImg from "../../assets/unnamed.png";
 import SearchImg from "../../assets/search.png";
@@ -10,7 +11,7 @@ import basketIconImg from "../../assets/basket-icon.jpg";
 const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
   const [activeLink, setActiveLink] = useState("/");
   const { getTotalAmountCart } = useContext(StoreContext);
-
+  const navigate = useNavigate();
   const handleClick = (value) => setActiveLink(value);
 
   return (
@@ -78,7 +79,7 @@ const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
         <img src={SearchImg} alt="search" className="search-icon" />
 
         <NavLink to="/cart" className="cart-link">
-          <img src={basketIconImg} alt="basket" className="basket-icon" />
+          <li onClick={() => navigate('myorders')}></li><img src={basketIconImg} alt="basket" className="basket-icon" />
           {getTotalAmountCart() > 0 && <div className="dot"></div>}
         </NavLink>
 

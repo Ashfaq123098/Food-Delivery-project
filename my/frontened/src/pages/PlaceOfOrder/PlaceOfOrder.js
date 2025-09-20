@@ -1,10 +1,15 @@
-import React, { useContext, useState } from 'react';
-import { StoreContext } from '../../Context/StoreContext';
-import axios from 'axios';
-import './PlaceOfOrder.css';
+import React, { useContext,  useState } from "react";
+import { StoreContext } from "../../Context/StoreContext";
+import axios from "axios";
+import "./PlaceOfOrder.css";
+//import { useNavigate } from "react-router-dom";
+
 
 const PlaceOfOrder = () => {
   const { getTotalAmountCart, token, cartItems, url } = useContext(StoreContext);
+
+  // 🔍 Debug: check if frontend can read API URL
+  console.log("Frontend sees API URL:", url);
 
   const [data, setData] = useState({
     firstName: "",
@@ -13,25 +18,34 @@ const PlaceOfOrder = () => {
     street: "",
     city: "",
     state: "",
-    zipcode: "",
+    postcode: "",   // ✅ changed from zipcode
     country: "",
     phone: "",
   });
 
   const [isLoading, setIsLoading] = useState(false);
-  const [paymentDone, setPaymentDone] = useState(false);
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
-    setData(prev => ({ ...prev, [name]: value }));
+    setData((prev) => ({ ...prev, [name]: value }));
   };
 
   const placeOfOrder = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    // Validate required fields
-    const requiredFields = ["firstName","lastName","email","street","city","state","zipcode","country","phone"];
+    // ✅ Validate required fields
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "street",
+      "city",
+      "state",
+      "postcode", // ✅ changed here too
+      "country",
+      "phone",
+    ];
     for (let field of requiredFields) {
       if (!data[field]) {
         alert("Please fill in all delivery information fields!");
@@ -40,13 +54,10 @@ const PlaceOfOrder = () => {
       }
     }
 
-    // Map cart items
+    // ✅ Prepare cart items
     const orderItems = Object.keys(cartItems)
-      .filter(key => cartItems[key] > 0)
-      .map(key => ({
-        productId: key,
-        quantity: cartItems[key]
-      }));
+      .filter((key) => cartItems[key] > 0)
+      .map((key) => ({ productId: key, quantity: cartItems[key] }));
 
     if (orderItems.length === 0) {
       alert("Your cart is empty!");
@@ -58,54 +69,109 @@ const PlaceOfOrder = () => {
       address: data,
       items: orderItems,
       amount: getTotalAmountCart() === 0 ? 0 : getTotalAmountCart() + 2,
-      paymentMethod: 'cash_on_delivery'
     };
 
     try {
-      console.log("Sending order data:", orderData);
-
-      // Include token only if it exists
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
       const res = await axios.post(`${url}/api/order/place`, orderData, { headers });
-      console.log("Backend response:", res.data);
 
-      if (res.data?.success) {
-        setPaymentDone(true);
-        setTimeout(() => {
-          alert("Order placed successfully!");
-          window.location.href = '/order-success';
-        }, 1000);
+      if (res.data?.url) {
+        window.location.href = res.data.url; // redirect to SSLCommerz
       } else {
-        alert("Order failed: " + (res.data?.message || "Please try again."));
+        alert("Payment failed to initialize.");
       }
-    } catch (error) {
-      console.error("Axios error:", error);
-      alert("Order failed. Please check console for details.");
+    } catch (err) {
+      console.error("Axios error:", err);
+      alert("Payment request failed. Check console for details.");
     } finally {
       setIsLoading(false);
     }
   };
+
+ /* const navigate = useNavigate();
+  useEffect(() => {
+    if (!token) {
+      alert("Please log in to place an order.");
+      navigate("/");
+    } else if (getTotalAmountCart() === 0) {
+      alert("Your cart is empty.");
+      navigate("/cart");
+    }
+  }, [token]);*/
 
   return (
     <form onSubmit={placeOfOrder} className="order-place">
       <div className="place-order-left">
         <p className="title">Delivery Information</p>
         <div className="multi-fields">
-          <input name="firstName" type="text" placeholder="First Name" onChange={onChangeHandler} value={data.firstName} />
-          <input name="lastName" type="text" placeholder="Last Name" onChange={onChangeHandler} value={data.lastName} />
+          <input
+            name="firstName"
+            type="text"
+            placeholder="First Name"
+            value={data.firstName}
+            onChange={onChangeHandler}
+          />
+          <input
+            name="lastName"
+            type="text"
+            placeholder="Last Name"
+            value={data.lastName}
+            onChange={onChangeHandler}
+          />
         </div>
-        <input name="email" type="email" placeholder="Email Address" onChange={onChangeHandler} value={data.email} />
-        <input name="street" type="text" placeholder="Street Address" onChange={onChangeHandler} value={data.street} />
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          value={data.email}
+          onChange={onChangeHandler}
+        />
+        <input
+          name="street"
+          type="text"
+          placeholder="Street"
+          value={data.street}
+          onChange={onChangeHandler}
+        />
         <div className="multi-fields">
-          <input name="city" type="text" placeholder="City" onChange={onChangeHandler} value={data.city} />
-          <input name="state" type="text" placeholder="State" onChange={onChangeHandler} value={data.state} />
+          <input
+            name="city"
+            type="text"
+            placeholder="City"
+            value={data.city}
+            onChange={onChangeHandler}
+          />
+          <input
+            name="state"
+            type="text"
+            placeholder="State"
+            value={data.state}
+            onChange={onChangeHandler}
+          />
         </div>
         <div className="multi-fields">
-          <input name="zipcode" type="text" placeholder="Zip Code" onChange={onChangeHandler} value={data.zipcode} />
-          <input name="country" type="text" placeholder="Country" onChange={onChangeHandler} value={data.country} />
+          <input
+            name="postcode"  // ✅ updated
+            type="text"
+            placeholder="Post Code"
+            value={data.postcode}
+            onChange={onChangeHandler}
+          />
+          <input
+            name="country"
+            type="text"
+            placeholder="Country"
+            value={data.country}
+            onChange={onChangeHandler}
+          />
         </div>
-        <input name="phone" type="text" placeholder="Phone" onChange={onChangeHandler} value={data.phone} />
+        <input
+          name="phone"
+          type="text"
+          placeholder="Phone"
+          value={data.phone}
+          onChange={onChangeHandler}
+        />
       </div>
 
       <div className="place-order-right">
@@ -123,25 +189,13 @@ const PlaceOfOrder = () => {
           <hr />
           <div className="cart-total-details">
             <b>Total</b>
-            <b>{getTotalAmountCart() === 0 ? 0 : getTotalAmountCart() + 2} Tk</b>
+            <b>
+              {getTotalAmountCart() === 0 ? 0 : getTotalAmountCart() + 2} Tk
+            </b>
           </div>
         </div>
-
-        <div className="payment-options">
-          <p className="title">Payment Method</p>
-          <div className="payment-option selected">
-            <span>💵</span> Cash on Delivery
-          </div>
-        </div>
-
-        {paymentDone && (
-          <div className="payment-success">
-            Payment Done Successfully!
-          </div>
-        )}
-
         <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Processing...' : 'Place Order (Cash on Delivery)'}
+          {isLoading ? "Processing..." : "Proceed to Payment"}
         </button>
       </div>
     </form>

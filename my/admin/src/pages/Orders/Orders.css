@@ -1,0 +1,89 @@
+/* Orders.css */
+
+.order {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.order h3 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.order-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.order-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  gap: 20px;
+}
+
+.order-item img {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.order-details {
+  flex: 1;
+}
+
+.order-item-food {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.order-item-name {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #222;
+}
+
+.order-item-address {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.order-item-phone {
+  font-size: 14px;
+  font-weight: 500;
+  color: #555;
+  margin-top: 5px;
+}
+
+.order-item select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #f4f4f4;
+  transition: all 0.2s ease;
+}
+
+.order-item select:hover {
+  background-color: #eaeaea;
+}
+
+.order-item p {
+  margin: 4px 0;
+}

@@ -7,7 +7,10 @@ const StoreContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   
   // ✅ API Base URL (read from .env or fallback to localhost:4000)
-  const url = process.env.REACT_APP_API || "http://localhost:4000";
+ 
+const url = process.env.REACT_APP_API || "http://localhost:4000";
+console.log("Frontend sees API URL:", url); // ✅ check here
+
 
   // ✅ Example token (replace with real auth later if needed)
   const token = localStorage.getItem("token") || "";

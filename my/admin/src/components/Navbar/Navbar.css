@@ -1,0 +1,43 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  background-color: #fff; /* Optional: navbar background */
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* subtle shadow */
+}
+
+.navbar .logo {
+  width: 80px;
+  max-width: 15%;
+  height: auto;
+}
+
+.navbar .profile {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* makes profile image circular */
+  object-fit: cover;  /* ensures the image fits nicely */
+  cursor: pointer;    /* optional: pointer on hover */
+  transition: transform 0.2s ease; /* smooth hover effect */
+}
+
+.navbar .profile:hover {
+  transform: scale(1.1); /* subtle zoom on hover */
+}
+
+/* Responsive tweaks for smaller screens */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 8px 3%;
+  }
+
+  .navbar .logo {
+    width: 60px;
+  }
+
+  .navbar .profile {
+    width: 35px;
+    height: 35px;
+  }
+}

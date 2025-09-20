@@ -18,4 +18,4 @@ foodRoute.post("/add", upload.single("image"), addfood);
 foodRoute.get("/list", foodlist);
 foodRoute.delete("/remove/:id", removefood);
 
-export default foodRoute;  // ✅ must be default export
+export default foodRoute;  

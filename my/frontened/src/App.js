@@ -10,7 +10,9 @@ import LoginFeature from "./components/LoginFeature/LoginFeature";
 import Footer from "./components/Footer/Footer";
 import AboutInformation from "./components/AboutInformation/AboutInformation";
 import MobileApp from "./components/MobileAppDownload/MobileAppDownload";
-import Cart from "./pages/Cart/Cart"; // <-- Import Cart
+import Cart from "./pages/Cart/Cart";
+import Verify from "./pages/Verify/Verify";  // ✅ Correct import
+import MyOrders from "./pages/MyOrders/MyOrders"; // ✅ Correct import
 
 const App = () => {
   const [category, setCategory] = useState("all");
@@ -76,6 +78,8 @@ const App = () => {
         />
         <Route path="/order" element={<PlaceOrder isLoggedIn={isLoggedIn} />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/verify" element={<Verify />} />
+        <Route path="/my-orders" element={<MyOrders />} />
       </Routes>
 
       {/* Sections on Home Page */}

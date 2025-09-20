@@ -1,10 +1,30 @@
+
+// routes/orderRoute.js
 import express from "express";
-import { placeOrder } from "../controllers/orderController.js";
-import authMiddleware from "../middleware/auth.js"; // now optional
+import { 
+  placeOrder, 
+  verifyOrder, 
+  userOrders, 
+  listOrders, 
+  updateStatus 
+} from "../controllers/orderController.js";
+import authMiddleware from "../middleware/auth.js"; 
 
-const orderRouter = express.Router();
+const orderRoute = express.Router();
 
-// Works for both logged-in users and guests
-orderRouter.post("/place", authMiddleware, placeOrder);
+// Place order (requires login)
+orderRoute.post("/place", authMiddleware, placeOrder);
 
-export default orderRouter;
+// SSLCommerz payment callback (success, fail, cancel, ipn)
+orderRoute.post("/verify", verifyOrder);
+
+// Get logged-in user’s orders
+orderRoute.post("/user-orders", authMiddleware, userOrders);
+
+// Admin: get all orders
+orderRoute.get("/list", listOrders);
+
+// Admin: update status
+orderRoute.post("/status", updateStatus);
+
+export default orderRoute;

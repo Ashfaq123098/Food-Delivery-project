@@ -1,0 +1,96 @@
+/* src/components/MyOrders/MyOrders.css */
+
+.my-orders {
+  margin: 50px auto;
+  max-width: 1000px;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.my-orders h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.my-orders .container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Order card */
+.my-orders-order {
+  display: grid;
+  grid-template-columns: 60px 2fr 1fr 1fr 1fr 120px;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+  padding: 15px 20px;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.my-orders-order:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+/* Parcel image */
+.my-orders-order img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid tomato;
+}
+
+/* Order details text */
+.my-orders-order p {
+  margin: 0;
+  color: #555;
+}
+
+.my-orders-order p b {
+  color: #222;
+}
+
+.my-orders-order span {
+  color: green;
+  margin-right: 5px;
+}
+
+/* Track order button */
+.my-orders-order button {
+  background-color: tomato;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.my-orders-order button:hover {
+  background-color: #e03e2f;
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .my-orders-order {
+    grid-template-columns: 50px 1fr;
+    grid-template-rows: repeat(4, auto);
+    gap: 10px;
+  }
+
+  .my-orders-order button {
+    grid-column: 1 / -1;
+  }
+}

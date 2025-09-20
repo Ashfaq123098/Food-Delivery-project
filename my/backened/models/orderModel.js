@@ -1,29 +1,24 @@
+// models/orderModel.js
 import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema({
-  userId: { type: String, default: null }, // allow null for guest
+  userId: { type: String, required: false },
+  // tran_id removed ✅
   items: { type: Array, required: true },
   amount: { type: Number, required: true },
-  address: {
-    firstName: String,
-    lastName: String,
-    email: String,
-    street: String,
-    city: String,
-    state: String,
-    zipcode: String,
-    country: String,
-    phone: String
+  address: { type: Object, required: true },
+  paymentMethod: { type: String, required: true },
+  status: { type: String, required: true, default: "Pending" }, // Pending by default
+  paymentConfirmed: { type: Boolean, default: false },
+  paymentInfo: {
+    val_id: String,
+    amount: Number,
+    currency: String,
+    paidAt: Date,
   },
-  status: { type: String, default: "Food Processing" },
-  date: { type: Date, default: Date.now },
-  paymentMethod: { 
-    type: String, 
-    enum: ["Cash on Delivery", "Bkash", "Nagad"], 
-    default: "Cash on Delivery" 
-  },
-  paymentConfirmed: { type: Boolean, default: false }
+  createdAt: { type: Date, default: Date.now },
 });
 
-const orderModel = mongoose.models.order || mongoose.model("Order", orderSchema);
+const orderModel = mongoose.models.Order || mongoose.model("Order", orderSchema);
+
 export default orderModel;
