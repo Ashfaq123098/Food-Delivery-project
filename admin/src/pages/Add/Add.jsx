@@ -21,7 +21,7 @@ const Add = ({ onNewProduct }) => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    // ✅ Validation for spaces / empty
+    
     if (!data.name.trim() || !data.description.trim() || !data.price.toString().trim()) {
       alert("❌ Please fill all fields properly (no spaces only)!");
       return;
