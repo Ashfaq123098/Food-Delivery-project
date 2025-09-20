@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { StoreContext } from "../../Context/StoreContext";
 
 import "./Navbar.css";
@@ -10,17 +10,28 @@ import basketIconImg from "../../assets/basket-icon.jpg";
 const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
   const [activeLink, setActiveLink] = useState("/");
   const { getTotalAmountCart } = useContext(StoreContext);
+  const navigate = useNavigate();
 
   const handleClick = (value) => setActiveLink(value);
 
+  // ✅ Anchor scroll without animation, works from any page
+  const handleAnchorClick = (id) => {
+    if (window.location.pathname !== "/") {
+      navigate("/"); // Go to Home first
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "auto" });
+      }, 100); // small delay to allow DOM render
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "auto" });
+    }
+  };
+
   return (
     <div className="navbar">
-      {/* Logo */}
       <NavLink to="/" onClick={() => handleClick("/")}>
         <img src={IconImg} alt="logo" className="navbar-logo" />
       </NavLink>
 
-      {/* Menu */}
       <ul className="navbar-menu">
         <li>
           <NavLink
@@ -31,7 +42,6 @@ const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
             Home
           </NavLink>
         </li>
-
         <li>
           <NavLink
             to="/menu"
@@ -41,39 +51,23 @@ const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
             Menu
           </NavLink>
         </li>
-
         <li>
-          <a
-            href="#About-Information"
-            className={activeLink === "#About-Information" ? "nav-link active" : "nav-link"}
-            onClick={() => handleClick("#About-Information")}
-          >
+          <a onClick={() => handleAnchorClick("About-Information")} className="nav-link">
             About
           </a>
         </li>
-
         <li>
-          <a
-            href="#Mobile-app-download"
-            className={activeLink === "#Mobile-app-download" ? "nav-link active" : "nav-link"}
-            onClick={() => handleClick("#Mobile-app-download")}
-          >
+          <a onClick={() => handleAnchorClick("Mobile-app-download")} className="nav-link">
             Mobile App
           </a>
         </li>
-
         <li>
-          <a
-            href="#footer"
-            className={activeLink === "#footer" ? "nav-link active" : "nav-link"}
-            onClick={() => handleClick("#footer")}
-          >
+          <a onClick={() => handleAnchorClick("footer")} className="nav-link">
             Contacts
           </a>
         </li>
       </ul>
 
-      {/* Right Section */}
       <div className="navbar-right">
         <img src={SearchImg} alt="search" className="search-icon" />
 
@@ -84,7 +78,7 @@ const Navbar = ({ setShowLogin, isLoggedIn, user, onLogout, onShowSignUp }) => {
 
         {isLoggedIn ? (
           <div className="user-section">
-            <span className="welcome-text">Welcome, {user?.name || "User"}</span>
+            <span className="welcome-text">{user?.name || "User"}</span>
             <button onClick={onLogout} className="logout-button">
               Logout
             </button>

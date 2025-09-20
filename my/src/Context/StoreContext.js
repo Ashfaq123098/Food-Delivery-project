@@ -1,49 +1,40 @@
-import { createContext, useState, useEffect } from "react";
+// src/Context/StoreContext.js
+import { createContext, useState } from "react";
 import { foodlist } from "../FoodData/FoodData";
 
-export const StoreContext = createContext(null);
+export const StoreContext = createContext();
 
-const StoreContextProvider = (props) => {
+const StoreContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
 
-  const addToCart = (itemId) => {
-    setCartItems((prev) => ({
+  const addToCart = (id) => {
+    setCartItems(prev => ({
       ...prev,
-      [itemId]: prev[itemId] ? prev[itemId] + 1 : 1,
+      [id]: prev[id] ? prev[id] + 1 : 1,
     }));
   };
 
-  const removeFromCart = (itemId) => {
-    setCartItems((prev) => {
-      const updated = { ...prev };
-      if (updated[itemId] > 1) {
-        updated[itemId] -= 1;
-      } else {
-        delete updated[itemId];
-      }
-      return updated;
+  const removeFromCart = (id) => {
+    setCartItems(prev => {
+      const copy = { ...prev };
+      if (copy[id] > 1) copy[id] -= 1;
+      else delete copy[id];
+      return copy;
     });
   };
 
-const getTotalAmountCart = () => {
-  let totalAmount = 0;
-  for (const itemId in cartItems) {
-    if (cartItems[itemId] > 0) {
-      const itemInfo = foodlist.find((product) => product.id === parseInt(itemId));
-     
-      if (itemInfo) {
-        totalAmount += itemInfo.price * cartItems[itemId];
-      }
+  const getTotalAmountCart = () => {
+    let total = 0;
+    for (const id in cartItems) {
+      const item = foodlist.find(f => f.id === parseInt(id));
+      if (item) total += item.price * cartItems[id];
     }
-  }
-  return totalAmount;
-};
-
-  const contextValue = { foodlist, cartItems, addToCart, removeFromCart,getTotalAmountCart };
+    return total;
+  };
 
   return (
-    <StoreContext.Provider value={contextValue}>
-      {props.children}
+    <StoreContext.Provider value={{ foodlist, cartItems, addToCart, removeFromCart, getTotalAmountCart }}>
+      {children}
     </StoreContext.Provider>
   );
 };
