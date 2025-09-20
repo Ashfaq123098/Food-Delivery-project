@@ -19,7 +19,7 @@ connectDB();
 app.use("/api/user", userRouter); 
 app.use("/api/products", productRouter);
 
-// Serve uploaded images
+
 app.use("/uploads", express.static("uploads"));
 
 // Root
