@@ -35,7 +35,7 @@
   color: #ff6b35;
 }
 
-/* Scroll animation */
+
 @keyframes fadeInUp {
   to {
     transform: translateY(0);
