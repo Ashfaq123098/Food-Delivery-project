@@ -34,11 +34,10 @@ const createToken = (id) =>{
     return jwt.sign({id},process.env.JWT_SECRET)
     }
 
-
 const registerUser = async(req,res)=>{
     const{name,password,email} = req.body;
     try {
-        //Checking Is User Already Exists
+        
         const exists = await userModel.findOne({email});
         if (exists) {
             return res.json({success:false,message:"User Already Found"})
