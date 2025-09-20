@@ -27,7 +27,7 @@ const List = () => {
     setBackendItems((prev) => [...prev, newItem]);
   };
 
-  // Remove handlers
+
   const removeLocal = (id) => {
     setLocalItems((prev) => prev.filter((item) => item.id !== id));
   };
