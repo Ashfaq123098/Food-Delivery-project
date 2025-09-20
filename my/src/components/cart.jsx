@@ -1,50 +1,81 @@
-// src/Components/Cart.js
 import React, { useContext } from "react";
 import { StoreContext } from "../Context/StoreContext";
-import './cart.css';
+import "./cart.css";
 
 const Cart = () => {
   const { cartItems, foodlist, addToCart, removeFromCart } = useContext(StoreContext);
 
+  // Fix _id comparison by converting to string
   const cartArray = Object.entries(cartItems)
     .map(([id, quantity]) => {
-      const item = foodlist.find(f => f.id === parseInt(id));
+      const item = foodlist.find((f) => f._id.toString() === id.toString());
       return item ? { ...item, quantity } : null;
     })
     .filter(Boolean);
 
-  const totalCost = cartArray.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cartArray.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const deliveryFee = subtotal > 0 ? 2 : 0;
+  const total = subtotal + deliveryFee;
 
   return (
     <div className="cart">
-      <h3>Cart</h3>
+      <h3>Your Cart</h3>
 
       {cartArray.length === 0 ? (
         <p>No items added.</p>
       ) : (
-        <div className="cart-items">
+        <>
+          {/* Cart Header */}
+          <div className="cart-table-header">
+            <span>Title</span>
+            <span>Price</span>
+            <span>Quantity</span>
+            <span>Total Price</span>
+            <span>Remove</span>
+          </div>
+
+          {/* Cart Items */}
           {cartArray.map((item) => (
-            <div key={item.id} className="cart-item-wrapper">
-              <hr />
-              <div className="cart-item">
-                <div className="item-info">
-                  <span>{item.name}</span>
-                  <span>Tk {item.price * item.quantity}</span>
-                </div>
-                <div className="item-actions">
-                  <button onClick={() => removeFromCart(item.id)}>-</button>
-                  <span>{item.quantity}</span>
-                  <button onClick={() => addToCart(item.id)}>+</button>
-                </div>
-              </div>
+            <div key={item._id} className="cart-item">
+              <span>{item.name}</span>
+              <span>{item.price} Tk</span>
+              <span>
+                <button
+                  onClick={() => removeFromCart(item._id)}
+                  disabled={item.quantity <= 1}
+                >
+                  -
+                </button>
+                {item.quantity}
+                <button onClick={() => addToCart(item._id)}>+</button>
+              </span>
+              <span>{item.price * item.quantity} Tk</span>
+              <span>
+                <button onClick={() => removeFromCart(item._id)}>Remove</button>
+              </span>
             </div>
           ))}
-        </div>
-      )}
 
-      <h4>Total: Tk {totalCost}</h4>
+          {/* Cart Totals */}
+          <div className="cart-totals">
+            <div>
+              <span>Subtotal:</span>
+              <span>{subtotal} Tk</span>
+            </div>
+            <div>
+              <span>Delivery Fee:</span>
+              <span>{deliveryFee} Tk</span>
+            </div>
+            <div className="cart-grand-total">
+              <strong>Total:</strong>
+              <strong>{total} Tk</strong>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
 
 export default Cart;
+
