@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// GET all products (skip deleted)
+
 router.get("/", async (req, res) => {
   try {
     const products = await Product.find({ status: { $ne: "deleted" } });
