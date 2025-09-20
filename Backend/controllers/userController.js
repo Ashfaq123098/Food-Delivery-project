@@ -62,6 +62,14 @@ const registerUser = async(req,res)=>{
             return res.json({success:false,message:"Please Enter A Strong Password"})
         }
 
+        if (!name || name.trim().length === 0) {
+            return res.json({ success: false, message: "Username cannot be empty or just spaces" });
+        }
+
+        if (/\s/.test(name)) {
+            return res.json({ success: false, message: "Username cannot contain spaces" });
+        }
+        
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password,salt);
 
