@@ -21,7 +21,7 @@ function LoginFeature({ setShowLogin = () => {}, setShowSignUp = () => {}, onSuc
 
       if (data.success) {
         localStorage.setItem('token', data.token);
-        onSuccess({ email, name: email.split('@')[0] }); // basic user info only
+        onSuccess({ email, name: email.split('@')[0] }); 
         setShowLogin(false);
       } else {
         alert(data.message || 'Login failed. Please Try Again');
