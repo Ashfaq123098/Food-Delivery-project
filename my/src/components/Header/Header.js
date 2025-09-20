@@ -6,7 +6,7 @@ const Header = () => {
   const navigate = useNavigate();
   
   const handleViewMenuClick = () => {
-    navigate('/menu'); // Navigate to the menu page
+    navigate('/menu'); 
   };
 
   return (
