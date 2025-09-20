@@ -24,7 +24,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST new product (with image)
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     console.log("REQ BODY:", req.body);
