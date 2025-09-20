@@ -26,7 +26,7 @@
 
 .product-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* compact columns */
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
   gap: 12px;
 }
 
