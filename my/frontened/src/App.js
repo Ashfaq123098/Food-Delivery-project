@@ -11,7 +11,7 @@ import Footer from "./components/Footer/Footer";
 import AboutInformation from "./components/AboutInformation/AboutInformation";
 import MobileApp from "./components/MobileAppDownload/MobileAppDownload";
 import Cart from "./pages/Cart/Cart";
-import Verify from "./pages/Verify/Verify";  // ✅ Correct import
+import Verify from "./pages/Verify/verify" // ✅ Correct import
 import MyOrders from "./pages/MyOrders/MyOrders"; // ✅ Correct import
 
 const App = () => {

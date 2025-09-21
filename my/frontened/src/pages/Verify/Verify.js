@@ -11,34 +11,38 @@ const Verify = () => {
   const { url } = useContext(StoreContext);
   const navigate = useNavigate();
 
-  const verifyPayment = async () => {
-    try {
-      const response = await axios.post(`${url}/api/order/verify`, {
-        success,
-        orderId,
-      });
+  useEffect(() => {
+    const verifyPayment = async () => {
+      try {
+        const response = await axios.post(`${url}/api/order/verify`, {
+          success,
+          orderId,
+        });
 
-      if (response.data.success) {
-        navigate("/myorders");
-      } else {
-        alert("Payment failed");
+        if (response.data.success) {
+          navigate("/myorders");
+        } else {
+          alert("❌ Payment failed");
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Verification error:", error);
+        alert("⚠️ Something went wrong!");
         navigate("/");
       }
-    } catch (error) {
-      console.error("Verification error:", error);
-      alert("Something went wrong!");
+    };
+
+    if (success && orderId) {
+      verifyPayment();
+    } else {
       navigate("/");
     }
-  };
-
-  useEffect(() => {
-    verifyPayment();
-  }, []);
+  }, [success, orderId, url, navigate]);
 
   return (
     <div className="verify">
       <div className="spinner"></div>
-      <p>Verifying your payment, please wait...</p>
+      <p>🔄 Verifying your payment, please wait...</p>
     </div>
   );
 };

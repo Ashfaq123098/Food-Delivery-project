@@ -1,4 +1,5 @@
 // controllers/orderController.js
+import { verify } from "jsonwebtoken";
 import orderModel from "../models/orderModel.js";
 import userModel from "../models/userModels.js";
 import SSLCommerzPayment from "sslcommerz-lts";
@@ -6,13 +7,14 @@ import SSLCommerzPayment from "sslcommerz-lts";
 const store_id = process.env.STORE_ID || "foodd68ccfdab652b5";
 const store_passwd = process.env.STORE_PASSWD || "foodd68ccfdab652b5@ssl";
 const is_live = false; // true = production, false = sandbox
+const frontend_url = process.env.FRONTEND_URL || "http://localhost:3000";
 
 // ---------------------------
 // Place a new order
 // ---------------------------
 const placeOrder = async (req, res) => {
   try {
-    const userId = req.user?.id;
+    const userId = req.body.userId || null; // optional for guest checkout
     const { items, amount, address } = req.body;
 
     // Validation
@@ -110,16 +112,23 @@ const verifyOrder = async (req, res) => {
       return res.status(400).json({ success: false, message: "Missing transaction ID" });
     }
 
+    // Get frontend url safely
+    const frontend_url = process.env.FRONTEND_URL || "http://localhost:3000";
+
     if (status === "VALID" || status === "SUCCESS") {
       await orderModel.findByIdAndUpdate(tran_id, {
         paymentConfirmed: true,
         status: "Paid",
       });
-      return res.redirect("http://localhost:3000/success"); // redirect frontend
-    } else if (status === "FAILED" || status === "CANCELLED") {
+
+      return res.redirect(`${frontend_url}/verify?success=true&orderId=${tran_id}`);
+    } 
+    else if (status === "FAILED" || status === "CANCELLED") {
       await orderModel.findByIdAndUpdate(tran_id, { status: "Failed" });
-      return res.redirect("http://localhost:3000/fail");
-    } else {
+
+      return res.redirect(`${frontend_url}/verify?success=false&orderId=${tran_id}`);
+    } 
+    else {
       return res.status(400).json({ success: false, message: "Invalid payment status", data: req.body });
     }
   } catch (error) {
@@ -127,6 +136,7 @@ const verifyOrder = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error", error: error.message });
   }
 };
+
 
 // ---------------------------
 // User's orders

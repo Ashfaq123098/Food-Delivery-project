@@ -2,6 +2,7 @@ import React, { useContext,  useState } from "react";
 import { StoreContext } from "../../Context/StoreContext";
 import axios from "axios";
 import "./PlaceOfOrder.css";
+import { foodlist } from "../../FoodData/FoodData";
 //import { useNavigate } from "react-router-dom";
 
 
@@ -25,14 +26,16 @@ const PlaceOfOrder = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onChangeHandler = (e) => {
-    const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    setData((data) => ({ ...data, [name]: value }));
   };
 
-  const placeOfOrder = async (e) => {
-    e.preventDefault();
+  const placeOfOrder = async (event) => {
+    event.preventDefault();
     setIsLoading(true);
+
+   
 
     // ✅ Validate required fields
     const requiredFields = [
@@ -65,12 +68,14 @@ const PlaceOfOrder = () => {
       return;
     }
 
+
     const orderData = {
       address: data,
       items: orderItems,
       amount: getTotalAmountCart() === 0 ? 0 : getTotalAmountCart() + 2,
     };
-
+ 
+    
     try {
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
       const res = await axios.post(`${url}/api/order/place`, orderData, { headers });

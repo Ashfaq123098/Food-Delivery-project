@@ -1,26 +1,23 @@
-
-.verify{
+.verify {
   min-height: 60vh;
   display: grid;
 }
 
-.verify .spinner{
+.verify .spinner {
   width: 100px;
   height: 100px;
   place-self: center;
   border: 5px solid #bdbdbd;
   border-top-color: tomato;
   border-radius: 50%;
-  animation: rotate 1s infinite;
+  animation: rotate 1s linear infinite;
 }
 
 @keyframes rotate {
-  100% {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
+  from {
+    transform: rotate(0deg);
   }
-}
+  to {
+    transform: rotate(360deg);
+  }
 }
